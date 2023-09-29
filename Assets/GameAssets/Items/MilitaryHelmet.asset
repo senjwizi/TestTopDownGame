@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6dea1f33502e5749912db687914c69b, type: 3}
+  m_Name: MilitaryHelmet
+  m_EditorClassIdentifier: 
+  itemName: Military Helmet
+  maxCountInStack: 3
+  inventoryIcon: {fileID: 21300000, guid: 4daa5f7e5c1f3d241abd1e9a3c2db4d5, type: 3}
+  itemObject: {fileID: 2058014708485319305, guid: 9741f57dfc52c9d47be89816e002e2ef, type: 3}
