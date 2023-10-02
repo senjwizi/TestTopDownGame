@@ -6,5 +6,5 @@ public class Item : ScriptableObject
     public string itemName;
     public int maxCountInStack;
     public Sprite inventoryIcon;
-    public GameObject itemObject;
+    public Sprite itemObject;
 }
