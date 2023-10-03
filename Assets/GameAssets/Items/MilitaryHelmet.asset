@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Military Helmet
   maxCountInStack: 3
   inventoryIcon: {fileID: 21300000, guid: 4daa5f7e5c1f3d241abd1e9a3c2db4d5, type: 3}
-  itemObject: {fileID: 21300000, guid: 4daa5f7e5c1f3d241abd1e9a3c2db4d5, type: 3}
+  itemObject: {fileID: 2058014708485319305, guid: 9741f57dfc52c9d47be89816e002e2ef, type: 3}

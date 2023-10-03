@@ -94,7 +94,7 @@
                 {
                     "name": "",
                     "id": "3e4931c4-6f43-4229-b904-0ee2879394f4",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -105,7 +105,7 @@
                 {
                     "name": "",
                     "id": "d9ed7a51-cd75-401c-96cd-23bee5fce437",
-                    "path": "",
+                    "path": "<Keyboard>/l",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

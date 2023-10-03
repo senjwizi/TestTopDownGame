@@ -493,11 +493,12 @@ MonoBehaviour:
   playerMask:
     serializedVersion: 2
     m_Bits: 64
-  freezSpeed: 1.5
-  normalSpeed: 3
+  freezSpeed: 120
+  normalSpeed: 200
   detectRadius: 8
-  borderRadius: 1
-  attackRadius: 3
+  borderRadius: 0.5
+  attackRadius: 1
+  health: 0
   maxHealth: 130
   damage: 7
   attackRate: 1
@@ -508,6 +509,7 @@ MonoBehaviour:
   forceDamping: 1.5
   forceToApply: {x: 0, y: 0}
   freezTime: 2
+  enemyManager: {fileID: 0}
 --- !u!1 &4399486419574211910
 GameObject:
   m_ObjectHideFlags: 0

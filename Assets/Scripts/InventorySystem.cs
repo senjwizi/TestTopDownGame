@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InventorySystem : MonoBehaviour
@@ -8,33 +5,14 @@ public class InventorySystem : MonoBehaviour
     public InventorySlot[] slots;
     public InventorySlot selectedSlot;
     private UIManager managerUI;
-
     public Item addingIntem;
-    public int amount;
+    private int slotsCount = 3;
 
     private void Start()
     {
         managerUI = FindObjectOfType<UIManager>();
-
-        LoadInventory();
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            TestAdd();
-        }
-    }
-
-    private void TestAdd()
-    {
-        bool canAdd = TryAddItem(addingIntem);
-        if (!canAdd)
-            Debug.Log("Нет места в инвенторе");
-
-    }
-    
     public bool TryAddItem(Item newItem)
     {
         InventorySlot emptySlot = null;
@@ -95,21 +73,31 @@ public class InventorySystem : MonoBehaviour
             managerUI.InvokeDeleteButton();
     }
 
-    private void LoadInventory()
+    public void Init(Data.GameData data)
     {
-        for(int i = 0; i < slots.Length; i++)
+        for(int i = 0; i < slotsCount; i++)
         {
             slots[i].InitSlot();
             slots[i].OnSelect += SelectSlot;
-
-            //Load saved data;
-            //slots[i].Init(newItem, amount);
+            if(data.items != null && data.items[i] != null)
+                slots[i].SetItem(data.items[i], data.amount[i]);
         }
     }
 
-    public void SaveInventory()
+    public void GetData(ref Data.GameData data)
     {
-
+        data.slotsCount = slotsCount;
+        GetArrayData(ref data.items, ref data.amount);
     }
 
+    private void GetArrayData(ref Item[] outItems, ref int[] outAmount)
+    {
+        outItems = new Item[slotsCount];
+        outAmount = new int[slotsCount];
+        for(int i = 0; i < slotsCount; i++)
+        {
+            outItems[i] = slots[i].item;
+            outAmount[i] = slots[i].itemAmount;
+        }
+    }
 }

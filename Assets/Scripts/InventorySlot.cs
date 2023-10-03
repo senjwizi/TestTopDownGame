@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting;
 
 public class InventorySlot : MonoBehaviour
 {
@@ -59,6 +58,16 @@ public class InventorySlot : MonoBehaviour
         itemImage.enabled = true;
         countBackgroud.enabled = true;
         itemAmountText.text = (itemAmount += 1).ToString();
+        isSlotEmpty = false;
+    }
+
+    public void SetItem(Item newItem, int amount)
+    {
+        item = newItem;
+        itemImage.sprite = newItem.inventoryIcon;
+        itemImage.enabled = true;
+        countBackgroud.enabled = true;
+        itemAmountText.text = (itemAmount = amount).ToString();
         isSlotEmpty = false;
     }
 }

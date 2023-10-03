@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -6,24 +5,24 @@ public class PlayerMovement : MonoBehaviour
     public float speed;
     private Rigidbody2D rb;
     public Transform hands;
-
+    public Transform render;
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    public void HandsLooking(Vector2 value)
+    public void HandsLooking(Vector3 value)
     {
-        Debug.Log(value);
-        float angle = Mathf.Atan2(-value.x, value.y) * Mathf.Rad2Deg;
-        if (value.x >= 0)
-            transform.localScale = new Vector3(value.x > 0 ? 1 : -1, 1, 1);
-        hands.rotation = Quaternion.Euler(0, 0, Mathf.Clamp(90 + angle, -90, 90));
+        Vector3 dir = value - transform.position;
+        float angle = Mathf.Atan2(-dir.x, dir.y) * Mathf.Rad2Deg;
+        hands.rotation = Quaternion.Euler(0, 0, 90 + angle);
+        hands.localScale = new Vector3(1, (angle > 0 && angle < 180) ? -1 : 1, 1);
     }
 
     public void Move(Vector2 value)
     {
-        HandsLooking(value);
+        if (value.x >= 0)
+            render.localScale = new Vector3(value.x > 0 ? 1 : -1, 1, 1);
         rb.velocity = speed * value.normalized;
     }
 }

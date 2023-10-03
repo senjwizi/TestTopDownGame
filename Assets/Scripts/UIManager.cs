@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -10,7 +8,7 @@ public class UIManager : MonoBehaviour
     public TMP_Text ammoText;
     public GameObject deleteItemButton;
 
-    void Start()
+    private void Start()
     {
         InhibitDeleteButton();
     }
@@ -23,6 +21,12 @@ public class UIManager : MonoBehaviour
     public void InhibitDeleteButton()
     {
         deleteItemButton.SetActive(false);
+    }
+
+    public void InitUI(float health, float maxHealth, int ammo)
+    {
+        UpdateHealth(health, maxHealth);
+        UpdateAmmo(ammo);
     }
 
 

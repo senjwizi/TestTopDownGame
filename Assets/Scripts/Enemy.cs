@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,11 +8,10 @@ public class Enemy : MonoBehaviour
     public float freezSpeed;
     public float normalSpeed;
     public float detectRadius;
-    public float borderRadius;
     public float attackRadius;
-    private bool isDetect, isAttack, isBorder;
+    private bool isDetect, isAttack;
 
-    private float health; 
+    public float health; 
     public float maxHealth;
     public float damage;
     private Rigidbody2D rb;
@@ -30,6 +27,10 @@ public class Enemy : MonoBehaviour
     public Vector2 forceToApply;
     public float freezTime;
 
+    [HideInInspector]
+    public EnemyManager enemyManager;
+    private Transform droppedItems;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -39,32 +40,28 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         speed = normalSpeed;
-        healthBar.value = health = maxHealth;
+        healthBar.value = health;
+        UpdateHealthbar();
     }
 
     private void Update()
     {
         isDetect = Physics2D.OverlapCircle(transform.position, detectRadius, playerMask);
-        isBorder = Physics2D.OverlapCircle(transform.position, borderRadius, playerMask);
         isAttack = Physics2D.OverlapCircle(transform.position, attackRadius, playerMask);
     }
 
     private void FixedUpdate()
     {        
-        if(isDetect && !isAttack && !isBorder)
+        if(isDetect && !isAttack)
             Follow();
-        else if (isDetect && isAttack && !isBorder)
+        else if (isDetect && isAttack)
             Attack();
     }
 
     private void Follow()
     {
         Vector2 direction = -(transform.position - player.position).normalized;
-        Vector2 moveDirection = direction * speed;
-        //moveDirection += forceToApply;
-        forceToApply /= forceDamping;
-        if(Mathf.Abs(forceToApply.x) <= 0.01f && Mathf.Abs(forceToApply.y) <= 0.01f)
-            forceToApply = Vector2.zero;
+        Vector2 moveDirection = speed * Time.fixedDeltaTime * direction;
         rb.velocity = moveDirection;
         render.localScale = new Vector3(transform.position.x - player.position.x > 0 ? -1 : 1, 1, 1);
     }
@@ -75,21 +72,24 @@ public class Enemy : MonoBehaviour
         {
             timeToAttack = Time.time + 1 / attackRate;
             player.transform.TryGetComponent(out PlayerManager playerManager);
-            playerManager.TakeDamage(damage);        
+            playerManager.TakeDamage(damage);
         }
+        rb.velocity = Vector2.zero;        
     }
 
     public void TakeDamage(float value, Vector2 force)
     {
         health -= value;
-        healthBar.value = health / maxHealth;
+        UpdateHealthbar();
         if (health <= 0)
-            StartCoroutine(Die());
-        //else
-            //forceToApply += force;
+            Die();
         speed = freezSpeed;
-        //rb.velocity = Vector2.zero;
         Invoke("ResetFreez", freezTime);
+    }
+
+    void UpdateHealthbar()
+    {
+        healthBar.value = health / maxHealth;
     }
 
     private void ResetFreez()
@@ -97,10 +97,11 @@ public class Enemy : MonoBehaviour
         speed = normalSpeed;
     }
 
-    IEnumerator Die()
+    private void Die()
     {
-        Instantiate(whatCanDrop[Random.Range(0, whatCanDrop.Length)].itemObject, transform.position, Quaternion.identity);
-        yield return new WaitForSeconds(0f);
+        Instantiate(whatCanDrop[Random.Range(0, whatCanDrop.Length)].itemObject, transform.position, Quaternion.identity, droppedItems);
+        enemyManager.RemoveFromList(gameObject);
+        enemyManager.enemiesCount--;
         Destroy(gameObject);
     }
 }
